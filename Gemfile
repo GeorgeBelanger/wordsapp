@@ -46,6 +46,10 @@ gem "rspec-given"
   gem 'capybara'
   gem 'guard-rspec'
   gem 'rb-fsevent'
+  gem 'omniauth'
+  gem 'omniauth-google-oauth2'
+
+
 
 gem 'carrierwave', '~> 1.0'
 gem 'fog-aws'

@@ -5,10 +5,12 @@ class User < ApplicationRecord
 	validates :email, format: { with: /\A\S*@\S*\W\S*\z/, message: "must be a valid email"}
 	validates :password, presence: true
 	validates :password, format: { with: /\A\S{6,}\z/, message: "is too short (minimum is 6 characters)"}
-	validates :password, format: { with: /\A\S{,20}\z/, message: "is too long (maximum is 20 characters)"}
+	validates :password, format: { with: /\A\S{,200}\z/, message: "is too long (maximum is 200 characters)"}
 	validates :password_confirmation, presence: true 
 	validates_confirmation_of :password
 	has_many :words, dependent: :destroy
+
+  has_many :authentications, :dependent => :destroy
 
   before_save :encrypt_password
   
@@ -21,6 +23,20 @@ class User < ApplicationRecord
       nil
     end
   end
+
+  def self.create_with_auth_and_hash(authentication, auth_hash)
+    password = SecureRandom.base64
+   user = self.create!(
+     name: auth_hash["info"]["name"],
+     email: auth_hash["extra"]["raw_info"]["email"],
+     password: password,
+     password_confirmation: password
+   )
+   user.authentications << authentication
+   return user
+ end
+
+
   
   def encrypt_password
     if password.present?
