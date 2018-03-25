@@ -1,15 +1,21 @@
 class WordsController < ApplicationController
+  before_filter :authorize, only: [:edit, :update, :destroy]
   before_action :set_word, only: [:show, :edit, :update, :destroy]
 
   # GET /words
   # GET /words.json
   def index
-    @words = Word.all
+    if current_user
+    @words = Word.where(user_id:current_user.id)
+    else
+      @words = nil
+    end
   end
 
   # GET /words/1
   # GET /words/1.json
   def show
+    set_word
   end
 
   # GET /words/new
@@ -19,12 +25,14 @@ class WordsController < ApplicationController
 
   # GET /words/1/edit
   def edit
+    set_word
   end
 
   # POST /words
   # POST /words.json
   def create
     @word = Word.new(word_params)
+    @word.user_id = current_user.id
 
     respond_to do |format|
       if @word.save
@@ -61,14 +69,40 @@ class WordsController < ApplicationController
     end
   end
 
+  def search
+    @words = Word.where(user_id:current_user[:id]) 
+
+    search_params(params).each do |key, value|
+      @words = @words.public_send(key, value) if value.present?
+    # byebug
+    end
+    # @search_keyword = value
+
+    respond_to do |format|
+     format.html { render :index }                    
+     format.js
+    end
+  
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_word
-      @word = Word.find(params[:id])
+      @word = Word.find_by(id:params[:id], user_id:current_user.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def word_params
-      params.fetch(:word, {})
+      params.require(:word).permit( :user_id,
+    :language,
+    :untranslated_word,
+    :translated_word,
+    :user_phonem,
+    :common_rank,
+    :audio_link,)
     end
+
+    def search_params(params)
+      params.slice(:untranslated_word, :translated_word)
+    end 
 end

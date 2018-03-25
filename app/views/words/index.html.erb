@@ -11,19 +11,42 @@
 
   <tbody>
 
-    <div> 
+    <h2> 
     Welcome to 100 to 50. The 100 most common words spoken in any language make up 50% of what is spoken, so the idea of this app is to provide you with a page(card) for each of the 100 most common words in your desired language, and allow you to hear the word spoken and add the way it sounds to you into the card. 
-    </div>
-    <% @words.each do |word| %>
+    </h2>
+    <br/>
+    
+
+  <%= form_tag search_path do%>
+
+    <label for="translated_word"> Search for an english word: </label>
+    <%= text_field_tag "translated_word", nil%>
+    <%= submit_tag ('submit')%>
+        
+  <%end%>
+ 
+
+<div id="word-listings">
+  <% if @words.nil? %>
+  <%elsif @words.length > 0%>
+      <% @words.each do |word| %>
       <tr>
+      <td> <%= word.translated_word %></td>
+      <td> <%= word.untranslated_word %></td>
         <td><%= link_to 'Show', word %></td>
         <td><%= link_to 'Edit', edit_word_path(word) %></td>
         <td><%= link_to 'Destroy', word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+  <%else%>
+      <p><i> Your search did not match any result. Please try a different search. </i></p>
+  <%end%>
+
+</div>
   </tbody>
 </table>
 
 <br>
 
 <%= link_to 'New Word', new_word_path %>
+

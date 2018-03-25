@@ -1,6 +1,12 @@
 <h1>Editing Word</h1>
 
+<%if !@word.nil?%>
+
 <%= render 'form', word: @word %>
 
 <%= link_to 'Show', @word %> |
+
+<%else%>
+This word belongs to another user
+<%end%>
 <%= link_to 'Back', words_path %>

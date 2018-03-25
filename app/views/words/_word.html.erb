@@ -1,0 +1,13 @@
+<div>Language:  <%= @word.language %></div>
+
+<div>Spoken rank: <%= @word.common_rank %></div>
+<div>Untranslated word: <%= @word.untranslated_word %></div>
+<div>Audio link: <a href=<%= @word.audio_link %>> here</a></div>
+
+<%= form_for(@word) do |f| %>
+    <div>
+        <%= f.label "Your Phonem: " %>
+        <%= f.text_field :user_phonem%>
+        <%= f.submit%>
+    </div>
+<%end%>

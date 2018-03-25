@@ -1,3 +1,24 @@
 // Place all the styles related to the Words controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.btn-group .buttonWord {
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    font-size: 1em;
+    background-color: black;
+    border: 1px black;
+}
+
+.btn-group .buttonWord:hover {
+  background-color: white;
+  color: black;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+.buttonWord {
+  border: none;
+  margin-left: 5vw;
+}
