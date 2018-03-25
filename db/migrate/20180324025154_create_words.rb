@@ -1,7 +1,7 @@
 class CreateWords < ActiveRecord::Migration[5.0]
   def change
     create_table :words do |t|
-      t.string :user_id
+      t.integer :user_id
       t.string :language
       t.string :untranslated_word
       t.string :translated_word

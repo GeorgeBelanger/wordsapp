@@ -8,7 +8,6 @@ class User < ApplicationRecord
 	validates :password, format: { with: /\A\S{,200}\z/, message: "is too long (maximum is 200 characters)"}
 	validates :password_confirmation, presence: true 
 	validates_confirmation_of :password
-	has_many :words, dependent: :destroy
 
   has_many :authentications, :dependent => :destroy
 

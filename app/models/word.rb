@@ -3,7 +3,6 @@ class Word < ApplicationRecord
 
 	validates :untranslated_word, presence: true
 	validates :translated_word, presence: true
-	#belongs_to :user
 	default_scope { order(common_rank: :asc) }
 
 	include PgSearch

@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20180324025156) do
   end
 
   create_table "words", force: :cascade do |t|
-    t.string   "user_id"
+    t.integer  "user_id"
     t.string   "language"
     t.string   "untranslated_word"
     t.string   "translated_word"

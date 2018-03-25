@@ -68,8 +68,5 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'associations with dependency' do
-    it { is_expected.to have_many(:words).dependent(:destroy)}
-  end
 
 end
