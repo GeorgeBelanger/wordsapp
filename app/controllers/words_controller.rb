@@ -5,8 +5,8 @@ class WordsController < ApplicationController
   # GET /words
   # GET /words.json
   def index
-    if current_user
-    @words = Word.where(user_id:current_user.id)
+    if !params[:language].nil?
+      @words = Word.where(language:params[:language], user_id:current_user.id)
     else
       @words = nil
     end
@@ -45,13 +45,48 @@ class WordsController < ApplicationController
     end
   end
 
+  # This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+#
+# Examples:
+#
+#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+#   Character.create(name: 'Luke', movie: movies.first)
+def new_language_spanish
+  if !current_user.languages.include?("Spanish")
+    Word.spanish_populate(params[:language], current_user)
+    current_user.languages << "Spanish"
+    current_user.save
+  end
+    redirect_to root_url(language: "Spanish")
+end
+
+def new_language_french
+  if !current_user.languages.include?("French")
+    Word.french_populate(params[:language], current_user)
+    current_user.languages << "French"
+    current_user.save
+  end
+    redirect_to root_url(language: "French")
+end
+
+def new_language_german
+  if !current_user.languages.include?("German")
+    Word.german_populate(params[:language], current_user)
+    current_user.languages << "German"
+    current_user.save
+  end
+    redirect_to root_url(language: "German")
+end
+
+
   # PATCH/PUT /words/1
   # PATCH/PUT /words/1.json
   def update
     respond_to do |format|
       if @word.update(word_params)
-        format.html { redirect_to @word, notice: 'Word was successfully updated.' }
-        format.json { render :show, status: :ok, location: @word }
+        format.html 
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @word.errors, status: :unprocessable_entity }
@@ -74,9 +109,10 @@ class WordsController < ApplicationController
 
     search_params(params).each do |key, value|
       @words = @words.public_send(key, value) if value.present?
-    # byebug
+  
     end
     # @search_keyword = value
+
 
     respond_to do |format|
      format.html { render :index }                    

@@ -11,6 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :remember_token
       t.string :confirmation_token
       t.string :profile_picture
+      t.string :languages, array:true, default: []
 
       t.timestamps
     end

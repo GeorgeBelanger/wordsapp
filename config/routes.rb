@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get "/sign_in" => "sessions#new", as: "sign_in" 
 
   root "words#index"
+  post "/words/new_language_spanish"  =>   "words#new_language_spanish", as: "new_language_spanish"
+  post "/words/new_language_french"  =>   "words#new_language_french", as: "new_language_french"
+  post "/words/new_language_german"  =>   "words#new_language_german", as: "new_language_german"
 
   match 'auth/:provider/callback', to: 'sessions#create_from_omniauth', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]

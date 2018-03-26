@@ -1,0 +1,22 @@
+<% if @words.nil? %>
+  <p><i> Please add/filter a language or search for a word </i></p>
+  <%elsif @words.length > 0%>
+      <% @words.each do |word| %>
+      <tr>
+      <td> <%= word.common_rank %> </td>
+      <td> <%= word.untranslated_word %></td>
+      <td> <%= word.audio_link %> Sound button goes here!    </td>
+      <td> <%= form_for(word) do |f| %>
+    <div>
+        <%= f.label "How the word sounds to you: " %>
+        <%= f.text_field :user_phonem, { :onchange => "this.form.submit();", class: 'updateField'} %>
+    </div> 
+<%end%></td>
+
+
+        <td><%= link_to 'Show', word %></td>
+      </tr>
+    <% end %>
+  <%else%>
+      <p><i> Your search did not match any result. Please try a different search. </i></p>
+  <%end%>

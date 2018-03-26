@@ -1,0 +1,9 @@
+var tpc = document.getElementById('TranslateButton');
+tpc.onclick = function(){
+$("#translationShow").html('<%= escape_javascript (render(partial: 'translate')) %>');
+}
+
+var upc = document.getElementById('UntranslateButton');
+upc.onclick = function(){
+$("#translationShow").html('<%= escape_javascript (render(partial: 'word')) %>');
+}

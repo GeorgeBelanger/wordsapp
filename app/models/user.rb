@@ -3,11 +3,11 @@ class User < ApplicationRecord
 	validates :name, presence: true
 	validates :email, presence: true, uniqueness: true
 	validates :email, format: { with: /\A\S*@\S*\W\S*\z/, message: "must be a valid email"}
-	validates :password, presence: true
-	validates :password, format: { with: /\A\S{6,}\z/, message: "is too short (minimum is 6 characters)"}
-	validates :password, format: { with: /\A\S{,200}\z/, message: "is too long (maximum is 200 characters)"}
-	validates :password_confirmation, presence: true 
-	validates_confirmation_of :password
+	validates :password, presence: true, :if => :password_change?
+	validates :password, format: { with: /\A\S{6,}\z/, message: "is too short (minimum is 6 characters)"},:if => :password_change?
+	validates :password, format: { with: /\A\S{,200}\z/, message: "is too long (maximum is 200 characters)"}, :if => :password_change?
+	validates :password_confirmation, presence: true, :if => :password_change?
+	validates_confirmation_of :password, :if => :password_change?
 
   has_many :authentications, :dependent => :destroy
 
@@ -21,6 +21,15 @@ class User < ApplicationRecord
     else
       nil
     end
+  end
+
+  def password_change?
+    if !self.id.nil?
+      if self.password == User.find(self.id).password
+        return false
+      end
+    end
+    return true
   end
 
   def self.create_with_auth_and_hash(authentication, auth_hash)

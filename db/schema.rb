@@ -35,8 +35,9 @@ ActiveRecord::Schema.define(version: 20180324025156) do
     t.string   "remember_token"
     t.string   "confirmation_token"
     t.string   "profile_picture"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.string   "languages",             default: [],              array: true
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "provider"
     t.string   "uid"
   end
